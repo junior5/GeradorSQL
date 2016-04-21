@@ -7,14 +7,19 @@ import br.univel.enums.EstadoCivil;
 @Tabela("CAD_CLIENTE")
 public class Cliente {
 	
+	@Coluna(pk=true)
 	private int id;
 	
+	@Coluna(nome="CL_NOME")
 	private String nome;
 	
+	@Coluna(nome="CL_ENDERECO")
 	private String endereco;
 	
+	@Coluna(nome="CL_TELEFONE")
 	private String telefone;
 	
+	@Coluna(nome="CL_ESTADOCIVIL")
 	private EstadoCivil estadoCivil;
 
 	public int getId() {
