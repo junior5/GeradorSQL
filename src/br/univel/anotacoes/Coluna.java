@@ -11,6 +11,8 @@ public @interface Coluna {
 
 	String nome() default "";
 
+	String tamanho() default "0";
+	
 	boolean pk() default false;
 
 }
