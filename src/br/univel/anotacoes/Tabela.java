@@ -1,5 +1,5 @@
 package br.univel.anotacoes;
 
-public @interface tabela {
+public @interface Tabela {
 
 }
