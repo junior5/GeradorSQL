@@ -21,6 +21,16 @@ public class Cliente {
 	
 	@Coluna(nome="CL_ESTADOCIVIL")
 	private EstadoCivil estadoCivil;
+	
+	public Cliente() {
+		this(0, null);
+	}
+
+	public Cliente(int id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
 
 	public int getId() {
 		return id;
