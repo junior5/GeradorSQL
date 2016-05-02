@@ -149,8 +149,33 @@ public class SqlGenImpl extends SqlGen {
 
 	@Override
 	protected String getDropTable(Connection con, Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Class<?> cl = obj.getClass();
+
+		try {
+
+			StringBuilder sb = new StringBuilder(); // Construtor de String
+	
+			// Declaração da tabela.
+			String nomeTabela;
+			
+			if (cl.isAnnotationPresent(Tabela.class)) {
+
+				Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
+				nomeTabela = anotacaoTabela.value();
+
+			} else {
+				nomeTabela = cl.getSimpleName().toUpperCase();
+
+			}
+			sb.append("DROP TABLE ").append(nomeTabela).append(";");
+
+			return sb.toString();
+
+		} catch (SecurityException e) {
+			System.out.println("Tabela não encontrada!");
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
