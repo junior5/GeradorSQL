@@ -93,7 +93,7 @@ public class DaoImpl implements Dao<Object, Object> {
 
 		int exibir = 0;
 
-		System.out.println("ATUALIZANDO REGISTRO");
+		System.out.println("ATUALIZANDO REGISTRO ID: " + cliente.getId());
 
 		try {
 			alterar.setString(1, cliente.getNome());
@@ -107,7 +107,6 @@ public class DaoImpl implements Dao<Object, Object> {
 
 		try {
 			exibir = alterar.executeUpdate();
-			System.out.print("\nAlterações em ID: " + cliente.getId());
 			System.out.print("\nNovo nome: " + cliente.getNome());
 			System.out.print("\nNovo endereço: " + cliente.getEndereco());
 			System.out.print("\nNovo telefone : " + cliente.getTelefone());
@@ -121,8 +120,26 @@ public class DaoImpl implements Dao<Object, Object> {
 
 	@Override
 	public void excluir(Object k) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement excluir = impl.getSqlDeleteById(impl.getCon(), k);
+
+		Cliente cliente = (Cliente) k;
+
+		int exibir = 0;
+
+		System.out.println("EXCLUINDO REGISTRO ID: " + cliente.getId());
+
+		try {
+			excluir.setInt(1, cliente.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			exibir = excluir.executeUpdate();
+			System.out.println(exibir + " Registro(s) excluido(s)!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 
 	@Override
