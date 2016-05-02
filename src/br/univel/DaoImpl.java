@@ -107,12 +107,12 @@ public class DaoImpl implements Dao<Object, Object> {
 
 		try {
 			exibir = alterar.executeUpdate();
-			System.out.print("Alterações em ID: " + cliente.getId());
+			System.out.print("\nAlterações em ID: " + cliente.getId());
 			System.out.print("\nNovo nome: " + cliente.getNome());
 			System.out.print("\nNovo endereço: " + cliente.getEndereco());
 			System.out.print("\nNovo telefone : " + cliente.getTelefone());
-			System.out.print("\nNovo Estado civil : " + cliente.getEstadoCivil());
-			System.out.print(exibir + " Registro(s) alterados!");
+			System.out.print("\nNovo estado civil : " + cliente.getEstadoCivil());
+			System.out.print("\n " + exibir + " Registro(s) alterados!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
