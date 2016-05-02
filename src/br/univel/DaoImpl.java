@@ -182,4 +182,31 @@ public class DaoImpl implements Dao<Object, Object> {
 		}
 		return clientes;
 	}
+	
+	public void apagarTabela(Object obj){
+		String sql = getImp().getDropTable(getImp().getCon(), obj);
+
+		System.out.println("APAGANDO TABELA");
+
+		System.out.println(sql);
+		try (PreparedStatement ps = getImp().getCon().prepareStatement(sql)){
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("TABELA NÃO ENCONTRADA!");
+		}
+	}
+	
+	public void criarTabela(Object obj){
+		String sql = getImp().getCreateTable(getImp().getCon(), obj);
+
+		System.out.println("CRIANDO TABELA");
+
+		System.out.println(sql);
+
+		try (PreparedStatement ps = getImp().getCon().prepareStatement(sql)){
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
