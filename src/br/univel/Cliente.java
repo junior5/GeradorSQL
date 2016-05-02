@@ -7,7 +7,7 @@ import br.univel.enums.EstadoCivil;
 @Tabela("CAD_CLIENTE")
 public class Cliente {
 	
-	@Coluna(pk=true)
+	@Coluna(pk=true, nome="ID", tamanho=6)
 	private int id;
 	
 	@Coluna(nome="CL_NOME", tamanho=50)
@@ -19,18 +19,22 @@ public class Cliente {
 	@Coluna(nome="CL_TELEFONE", tamanho=10)
 	private String telefone;
 	
-	@Coluna(nome="CL_ESTADOCIVIL")
+	@Coluna(nome="CL_ESTADOCIVIL", tamanho=30)
 	private EstadoCivil estadoCivil;
 	
 	public Cliente() {
-		this(0, null);
+		this(0, null, null, null, null);
 	}
 
-	public Cliente(int id, String nome) {
+	public Cliente(int id, String nome, String endereco, String telefone, EstadoCivil estadoCivil) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.endereco = endereco;
+		this.telefone = telefone;
+		this.estadoCivil = estadoCivil;
 	}
+
 
 	public int getId() {
 		return id;
