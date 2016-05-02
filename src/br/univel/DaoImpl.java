@@ -86,8 +86,37 @@ public class DaoImpl implements Dao<Object, Object> {
 
 	@Override
 	public void atualizar(Object t) {
-		// TODO Auto-generated method stub
 		
+		PreparedStatement alterar = impl.getSqlUpdateById(impl.getCon(), t);
+
+		Cliente cliente = (Cliente) t;
+
+		int exibir = 0;
+
+		System.out.println("ATUALIZANDO REGISTRO");
+
+		try {
+			alterar.setString(1, cliente.getNome());
+			alterar.setString(2, cliente.getEndereco());
+			alterar.setString(3, cliente.getTelefone());
+			alterar.setInt(4, cliente.getEstadoCivil().ordinal());
+			alterar.setInt(5, cliente.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			exibir = alterar.executeUpdate();
+			System.out.print("Alterações em ID: " + cliente.getId());
+			System.out.print("\nNovo nome: " + cliente.getNome());
+			System.out.print("\nNovo endereço: " + cliente.getEndereco());
+			System.out.print("\nNovo telefone : " + cliente.getTelefone());
+			System.out.print("\nNovo Estado civil : " + cliente.getEstadoCivil());
+			System.out.print(exibir + " Registro(s) alterados!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
 	}
 
 	@Override
