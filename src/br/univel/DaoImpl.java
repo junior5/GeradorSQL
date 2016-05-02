@@ -3,9 +3,11 @@ package br.univel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.univel.enums.EstadoCivil;
 import br.univel.interfaces.Dao;
 
 public class DaoImpl implements Dao<Object, Object> {
@@ -59,7 +61,26 @@ public class DaoImpl implements Dao<Object, Object> {
 
 	@Override
 	public Object buscar(Object k) {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement buscar = impl.getSqlSelectById(impl.getCon(), k);
+
+		ResultSet exibir;
+
+		System.out.println("BUSCANDO REGISTRO");
+
+		try {
+			exibir = buscar.executeQuery();
+			while (exibir.next()) {
+				System.out.print("\nID: " + exibir.getInt("CL_ID"));
+				System.out.print("\nNOME: " + exibir.getString("CL_NOME"));
+				System.out.print("\nENDERECO: " + exibir.getString("CL_ENDERECO"));
+				System.out.print("\nTELEFONE: " + exibir.getString("CL_TELEFONE"));
+				System.out.print("\nESTADOCIVIL: " + EstadoCivil.values()[exibir.getInt("CL_ESTADOCIVIL")]);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 
