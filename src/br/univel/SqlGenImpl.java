@@ -255,8 +255,36 @@ public class SqlGenImpl extends SqlGen {
 
 	@Override
 	protected PreparedStatement getSqlSelectAll(Connection con, Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Class<? extends Object> cl = obj.getClass();
+
+		StringBuilder sb = new StringBuilder();
+
+		// Declaração da tabela.
+		String nomeTabela;
+
+		if (cl.isAnnotationPresent(Tabela.class)) {
+			Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
+			nomeTabela = anotacaoTabela.value();
+		} else {
+			nomeTabela = cl.getSimpleName().toUpperCase();
+		}
+
+		sb.append("SELECT * FROM ").append(nomeTabela).append(";");
+
+		String strSql = sb.toString();
+
+		PreparedStatement ps = null;
+		
+		try {
+			ps = con.prepareStatement(strSql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		return ps;
 	}
 
 	@Override
