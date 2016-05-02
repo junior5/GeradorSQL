@@ -23,9 +23,9 @@ public class SqlGenImpl extends SqlGen {
 	}
 
 	private void abrirConexao() throws SQLException {
-		String url = "jdbc:h2:D:/";
-		String user = "admin";
-		String pass = "admin";		
+		String url = "jdbc:h2:./test";
+		String user = "sa";
+		String pass = "sa";		
 		setCon(DriverManager.getConnection(url, user, pass));
 	}
 
@@ -189,11 +189,11 @@ public class SqlGenImpl extends SqlGen {
 		String nomeTabela;
 
 		if (cl.isAnnotationPresent(Tabela.class)) {
-			
+
 			Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
-			
+
 			nomeTabela = anotacaoTabela.value();
-			
+
 		} else {
 			nomeTabela = cl.getSimpleName().toUpperCase();
 		}
@@ -241,7 +241,7 @@ public class SqlGenImpl extends SqlGen {
 		String strSql = sb.toString();
 
 		PreparedStatement ps = null;
-		
+
 		try {
 			ps = con.prepareStatement(strSql);
 		} catch (SQLException e) {
@@ -255,7 +255,7 @@ public class SqlGenImpl extends SqlGen {
 
 	@Override
 	protected PreparedStatement getSqlSelectAll(Connection con, Object obj) {
-		
+
 		Class<? extends Object> cl = obj.getClass();
 
 		StringBuilder sb = new StringBuilder();
@@ -275,7 +275,7 @@ public class SqlGenImpl extends SqlGen {
 		String strSql = sb.toString();
 
 		PreparedStatement ps = null;
-		
+
 		try {
 			ps = con.prepareStatement(strSql);
 		} catch (SQLException e) {
@@ -289,7 +289,7 @@ public class SqlGenImpl extends SqlGen {
 
 	@Override
 	protected PreparedStatement getSqlSelectById(Connection con, Object obj) {
-		
+
 		Class<? extends Object> cl = obj.getClass();
 
 		Cliente cliente = (Cliente) obj;
@@ -299,11 +299,11 @@ public class SqlGenImpl extends SqlGen {
 		String nomeTabela;
 
 		if (cl.isAnnotationPresent(Tabela.class)) {
-			
+
 			Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
-			
+
 			nomeTabela = anotacaoTabela.value();
-			
+
 		} else {
 			nomeTabela = cl.getSimpleName().toUpperCase();
 		}
@@ -336,7 +336,7 @@ public class SqlGenImpl extends SqlGen {
 		String strSql = sb.toString();
 
 		PreparedStatement ps = null;
-		
+
 		try {
 			ps = con.prepareStatement(strSql);
 		} catch (SQLException e) {
@@ -509,7 +509,7 @@ public class SqlGenImpl extends SqlGen {
 
 		return ps;
 
-	}
+	}	
 
 	public Connection getCon() {
 		if (con == null){
@@ -525,5 +525,4 @@ public class SqlGenImpl extends SqlGen {
 	public void setCon(Connection con) {
 		this.con = con;
 	}
-
 }
