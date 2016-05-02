@@ -8,27 +8,29 @@ import java.util.List;
 import br.univel.interfaces.Dao;
 
 public class DaoImpl implements Dao<Object, Object> {
-
-	private Connection con;
 	
-	private Connection abrirConexao() throws SQLException{
-		String url = "jdbc:h2:~/pessoa";
-		String user = "sa";
-		String pass = "sa";
-		return con = DriverManager.getConnection(url, user, pass);
+	private SqlGenImpl impl;
+	
+	private SqlGenImpl getImp() {
+		if (impl == null) {
+			try {
+				setImp(new SqlGenImpl());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
+		return impl;
+	}
+	
+	private void setImp(SqlGenImpl impl) {
+		this.impl = impl;
 	}
 	
 	@Override
 	public void salvar(Object t) {
-		try {
-			con = abrirConexao();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		SqlGenImpl sqlGenEx = new SqlGenImpl();
-		sqlGenEx.getSqlInsert(con, t);		
+		// TODO Auto-generated method stub
+
 	}
 	
 
