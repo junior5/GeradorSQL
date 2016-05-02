@@ -2,6 +2,8 @@ package br.univel.interfaces;
 
 import java.util.List;
 
+import br.univel.Cliente;
+
 public interface Dao<T, K>{
 	public void salvar(T t);
 
@@ -11,5 +13,5 @@ public interface Dao<T, K>{
 
 	public void excluir(K k);
 
-	public List<T> listarTodos(T t);
+	public List<Cliente> listarTodos(T t);
 }
