@@ -27,6 +27,10 @@ public class SqlGenImpl extends SqlGen {
 		String pass = "admin";		
 		setCon(DriverManager.getConnection(url, user, pass));
 	}
+	
+	private void fecharConexao() throws SQLException {
+		getCon().close();
+	}
 
 	@Override
 	protected String getCreateTable(Connection con, Object obj) {
