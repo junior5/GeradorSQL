@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.univel.enums.EstadoCivil;
@@ -143,9 +144,42 @@ public class DaoImpl implements Dao<Object, Object> {
 	}
 
 	@Override
-	public List listarTodos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Cliente> listarTodos(Object t) {
 
+		PreparedStatement listar = impl.getSqlSelectAll(impl.getCon(), t);
+
+		System.out.println("LISTANDO REGISTROS");
+
+		List<Cliente> clientes = new ArrayList<Cliente>();
+
+		ResultSet retorno = null;
+
+		try {
+			retorno = listar.executeQuery();
+			while (retorno.next()) {
+				Cliente aux = new Cliente();
+				aux.setId(retorno.getInt("CL_ID"));
+				aux.setNome(retorno.getString("CL_NOME"));
+				aux.setEndereco(retorno.getString("CL_ENDERECO"));
+				aux.setTelefone(retorno.getString("CL_TELEFONE"));
+				aux.setEstadoCivil(EstadoCivil.values()[retorno.getInt("CL_ESTADOCIVIL")]);
+
+				clientes.add(aux);
+
+				}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		for (Cliente c: clientes){
+			System.out.println("ID: " + c.getId());
+			System.out.println("NOME: " + c.getNome());
+			System.out.println("ENDERECO: " + c.getEndereco());
+			System.out.println("TELEFONE: " + c.getTelefone());
+			System.out.println("ESTADO CIVIL: " + c.getEstadoCivil());
+			System.out.println("\n");
+		}
+		return clientes;
+	}
 }
