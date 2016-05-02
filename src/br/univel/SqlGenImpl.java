@@ -350,8 +350,102 @@ public class SqlGenImpl extends SqlGen {
 
 	@Override
 	protected PreparedStatement getSqlUpdateById(Connection con, Object obj) {
-		// TODO Auto-generated method stub
-		return null;
+		Class<? extends Object> cl = obj.getClass();
+
+		Cliente cliente = (Cliente) obj;
+
+		StringBuilder sb = new StringBuilder();
+
+		// Declaração da tabela.
+		String nomeTabela;
+
+		if (cl.isAnnotationPresent(Tabela.class)) {
+			Tabela anotacaoTabela = cl.getAnnotation(Tabela.class);
+			nomeTabela = anotacaoTabela.value();
+		} else {
+			nomeTabela = cl.getSimpleName().toUpperCase();
+		}
+
+		sb.append("UPDATE ").append(nomeTabela);
+
+		Field[] atributos = cl.getDeclaredFields();
+
+		for (int i = 0, cont = 0; i < atributos.length; i++) {
+
+			Field field = atributos[i];
+
+			if (field.isAnnotationPresent(Coluna.class)) {
+
+				Coluna anotacaoColuna = field.getAnnotation(Coluna.class);
+
+				if (!anotacaoColuna.pk()) {
+
+					cont++;
+
+					if (cont == 1)
+						sb.append("\nSET ");
+
+					if (anotacaoColuna.nome().isEmpty()) {
+
+						sb.append(field.getName().toUpperCase()).append(" = (?)");
+
+					} else {
+
+						sb.append(anotacaoColuna.nome()).append(" = (?)");
+
+					}
+
+
+					if (field.getType().equals(String.class)){
+						sb.append(", \n");
+					} else {
+						sb.append("\n");
+					}
+				}
+
+			}
+		}
+
+		sb.append(" WHERE ");
+
+		for (int i = 0; i < atributos.length; i++) {
+
+			Field field = atributos[i];
+
+			if (field.isAnnotationPresent(Coluna.class)) {
+
+				Coluna anotacaoColuna = field.getAnnotation(Coluna.class);
+
+				if (anotacaoColuna.pk()) {
+
+					if (anotacaoColuna.nome().isEmpty()) {
+
+						sb.append(field.getName().toUpperCase()).append(" = ").append("(?)");
+
+					} else {
+
+						sb.append(anotacaoColuna.nome()).append(" = ").append("(?)");
+
+					}
+
+				}
+			}
+		}
+
+		sb.append(";");
+
+		String strSql = sb.toString();
+
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement(strSql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+
+		return ps;
 	}
 
 	@Override
