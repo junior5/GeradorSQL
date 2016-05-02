@@ -3,6 +3,7 @@ package br.univel;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -11,6 +12,21 @@ import br.univel.anotacoes.Tabela;
 import br.univel.classeabstrata.SqlGen;
 
 public class SqlGenImpl extends SqlGen {
+	
+	private Connection con;
+
+	public SqlGenImpl() throws SQLException {
+
+		abrirConexao();
+
+	}
+	
+	private void abrirConexao() throws SQLException {
+		String url = "jdbc:h2:D:/";
+		String user = "admin";
+		String pass = "admin";		
+		setCon(DriverManager.getConnection(url, user, pass));
+	}
 
 	@Override
 	protected String getCreateTable(Connection con, Object obj) {
@@ -87,6 +103,7 @@ public class SqlGenImpl extends SqlGen {
 		sb.append(')');
 
 		String strSql = sb.toString();
+		
 		System.out.println(strSql);
 
 		PreparedStatement ps = null;
@@ -146,6 +163,21 @@ public class SqlGenImpl extends SqlGen {
 	protected PreparedStatement getSqlDeleteById(Connection con, Object obj) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Connection getCon() {
+		if (con == null){
+			try {
+				abrirConexao();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return con;
+	}
+
+	public void setCon(Connection con) {
+		this.con = con;
 	}
 
 }
